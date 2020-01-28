@@ -13,8 +13,8 @@ module StripeEvent
     end
     alias :setup :configure
 
-    def instrument(event)
-      event = event_filter.call(event)
+    def instrument(event, params = {})
+      event = event_filter.call(event, params)
       backend.instrument namespace.call(event.type), event if event
     end
 
@@ -68,5 +68,5 @@ module StripeEvent
   self.adapter = NotificationAdapter
   self.backend = ActiveSupport::Notifications
   self.namespace = Namespace.new("stripe_event", ".")
-  self.event_filter = lambda { |event| event }
+  self.event_filter = lambda { |event, _params| event }
 end

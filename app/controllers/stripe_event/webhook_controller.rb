@@ -5,7 +5,7 @@ module StripeEvent
     end
 
     def event
-      StripeEvent.instrument(verified_event)
+      StripeEvent.instrument(verified_event, params)
       head :ok
     rescue Stripe::SignatureVerificationError => e
       log_error(e)
